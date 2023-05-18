@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 // all midelwere is here
@@ -58,15 +58,32 @@ async function run(){
 
         // get img from toy for gallery route here
         app.get("/alltoys",async(req,res)=>{
-          const query = {};
-          const option = {
-            projection : {thumbnail: 1, name:1, price: 1, rating:1, catagory:1}
-          };
+          try {
+            const query = {};
+            const option = {
+              projection : {thumbnail: 1, name:1, price: 1, rating:1, catagory:1}
+            };
 
-          const result = await AllToys.find(query, option).toArray();
-          res.send(result);
+            const result = await AllToys.find(query, option).toArray();
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
           
         });
+
+
+        // single toys details route is here
+        app.get('/singletoydeatils/:id', async(req, res)=>{
+          try {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await AllToys.findOne(query);
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
+        })
 
 
 
