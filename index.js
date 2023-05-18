@@ -56,6 +56,19 @@ async function run(){
         });
 
 
+        // get img from toy for gallery route here
+        app.get("/alltoys",async(req,res)=>{
+          const query = {};
+          const option = {
+            projection : {thumbnail: 1, name:1, price: 1, rating:1, catagory:1}
+          };
+
+          const result = await AllToys.find(query, option).toArray();
+          res.send(result);
+          
+        });
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
