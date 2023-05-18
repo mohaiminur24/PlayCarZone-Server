@@ -32,6 +32,7 @@ async function run(){
         const AllToys = client.db("PlayCarZone").collection("alltoys");
 
 
+        // post new toys route is here
         app.post("/inserttoy", async(req, res)=>{
             const toy = req.body;
             const result = await AllToys.insertOne(toy);
@@ -52,11 +53,14 @@ run().catch(console.dir);
 // Mongodb connection is end here
 
 
+
+
+// default route is here
 app.get("/",(req,res)=>{
     res.send("PlayCarZone server is running")
 });
 
-
+// app listen is here
 app.listen(port, ()=>{
     console.log(`This server is running with ${port}`);   
 });
