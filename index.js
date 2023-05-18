@@ -34,9 +34,25 @@ async function run(){
 
         // post new toys route is here
         app.post("/inserttoy", async(req, res)=>{
-            const toy = req.body;
-            const result = await AllToys.insertOne(toy);
-            res.send(result);
+            try {
+              const toy = req.body;
+              const result = await AllToys.insertOne(toy);
+              res.send(result);
+            } catch (error) {
+              console.log(error);
+            }
+        });
+
+        // get img from toy for gallery route here
+        app.get("/galleryimg",async(req,res)=>{
+          const query = {};
+          const option = {
+            projection : {thumbnail: 1}
+          };
+
+          const result = await AllToys.find(query, option).limit(18).toArray();
+          res.send(result);
+          
         });
 
 
