@@ -61,7 +61,7 @@ async function run(){
           try {
             const query = {};
             const option = {
-              projection : {thumbnail: 1, name:1, price: 1, rating:1, catagory:1}
+              projection : {thumbnail: 1, name:1, price: 1, rating:1, catagory:1,quantity:1,sellername:1}
             };
 
             const result = await AllToys.find(query, option).toArray();
@@ -69,7 +69,16 @@ async function run(){
           } catch (error) {
             console.log(error);
           }
-          
+        });
+
+        // get all toy all data for alltoys page route is here
+        app.get("/alltoysdata",async(req,res)=>{
+          try {
+            const result = await AllToys.find().limit(20).toArray();
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
         });
 
 
