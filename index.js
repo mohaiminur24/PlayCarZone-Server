@@ -86,8 +86,10 @@ async function run(){
         app.get("/mytoysdata",async(req,res)=>{
           try {
             const emailaddress = req.query.email;
+            const sorting = req.query.sorting;
+            const sortnum = sorting== "assending" ? 1 : -1;
             const query = {selleremail: emailaddress}
-            const result = await AllToys.find(query).toArray();
+            const result = await AllToys.find(query).sort({price: sortnum}).toArray();
             res.send(result);
           } catch (error) {
             console.log(error);
