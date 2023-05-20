@@ -31,18 +31,27 @@ async function run(){
 
         const AllToys = client.db("PlayCarZone").collection("alltoys");
 
-
-        // post new toys route is here
-        app.post("/inserttoy", async(req, res)=>{
+        // search from all toys route is here
+        app.get("/searchalltoys/:text",async(req,res)=>{
             try {
-              const toy = req.body;
-              const result = await AllToys.insertOne(toy);
+              const search = req.params.text;
+              const query = {name: {$regex: search, $options:"i"}};
+              const result = await AllToys.find(query).toArray();
               res.send(result);
             } catch (error) {
               console.log(error);
             }
         });
 
+        app.get('/discounttoy', async(rq,res)=>{
+          try {
+            const result = await AllToys.find().limit(6).toArray();
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+        
         // get img from toy for gallery route here
         app.get("/galleryimg",async(req,res)=>{
           const query = {};
@@ -54,7 +63,6 @@ async function run(){
           res.send(result);
           
         });
-
 
         // get img from toy for gallery route here
         app.get("/alltoys",async(req,res)=>{
@@ -132,6 +140,17 @@ async function run(){
             const result = await AllToys.updateOne(query,updatedoucument);
             res.send(result);
         });
+
+        // post new toys route is here
+        app.post("/inserttoy", async(req, res)=>{
+          try {
+            const toy = req.body;
+            const result = await AllToys.insertOne(toy);
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
+      });
 
 
 
