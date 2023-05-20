@@ -115,6 +115,22 @@ async function run(){
           res.send(result);
         })
 
+        // update toy data route is here
+        app.post('/updatetoy/:id', async(req,res)=>{
+            const id = req.params.id;
+            const data = req.body;
+            const  query = {_id: new ObjectId(id)};
+            const updatedoucument = {
+              $set: {
+                price : data.price,
+                quantity : data.quantity,
+                description : data.description
+              }
+            };
+            const result = await AllToys.updateOne(query,updatedoucument);
+            res.send(result);
+        });
+
 
 
     // Send a ping to confirm a successful connection
