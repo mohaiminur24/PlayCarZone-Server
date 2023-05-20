@@ -82,6 +82,19 @@ async function run(){
         });
 
 
+        // get My toy all data for Mytoys page route is here
+        app.get("/mytoysdata",async(req,res)=>{
+          try {
+            const emailaddress = req.query.email;
+            const query = {selleremail: emailaddress}
+            const result = await AllToys.find(query).toArray();
+            res.send(result);
+          } catch (error) {
+            console.log(error);
+          }
+        });
+
+
         // single toys details route is here
         app.get('/singletoydeatils/:id', async(req, res)=>{
           try {
@@ -92,6 +105,14 @@ async function run(){
           } catch (error) {
             console.log(error);
           }
+        });
+
+        // Delete toy route is here
+        app.delete("/deletetoy/:id", async(req, res)=>{
+          const id = req.params.id;
+          const query = {_id: new ObjectId(id)};
+          const result = await AllToys.deleteOne(query);
+          res.send(result);
         })
 
 
